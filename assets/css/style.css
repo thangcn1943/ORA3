@@ -1,0 +1,20 @@
+.abc{
+    display: inline-block;
+}
+.info-item td{
+    padding-right: 20px ;
+}
+.info-item .input-field{
+    display: none;
+    border: 1px dashed #ccc;
+}
+.ti-trash{
+    cursor: pointer;
+}
+#group-item{
+    margin-top: 20px;
+}
+#delete{
+    color: white;
+    background-color: red;
+}
