@@ -85,7 +85,9 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
         deleteButton.textContent = 'Delete';
         deleteButton.id = 'delete'
         deleteButton.addEventListener('click', function() {
-            this.parentNode.remove();
+            if (confirm(`Are you sure you want to delete this group item?\n`)) {
+                this.parentNode.remove();
+            }
         });
         table.appendChild(deleteButton);
     }
