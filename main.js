@@ -23,7 +23,6 @@ function addDblclickEvent(ele) {
     });
 }
 
-
 document.querySelector('.add-group-item').addEventListener('click', function() {
     // Tạo một bảng mới
     flag = (document.getElementById('main').children.length === 1)
@@ -58,6 +57,7 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
         addDblclickEvent(td1, studentId);
     
         let td2 = document.createElement('td');
+        td2.className = "input-info"
         td2.innerHTML = '<input type="text">';
     
         let td3 = document.createElement('td');
@@ -109,6 +109,7 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
         addDblclickEvent(td1, studentId);
 
         let td2 = document.createElement('td');
+        td2.className = "input-info"
         td2.innerHTML = '<input type="text">';
 
         let td3 = document.createElement('td');
@@ -131,3 +132,40 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
     // Thêm bảng vào cuối div#main
     document.getElementById('main').appendChild(table);
 });
+
+let inputs = document.getElementsByTagName('input');
+for (let i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('blur', function() {
+        // Tạo một phần tử span mới chứa giá trị đã nhập
+        let span = document.createElement('span');
+        span.innerText = this.value;
+
+        // Thay thế phần tử input bằng phần tử span mới
+        this.parentNode.replaceChild(span, this);
+    });
+}
+
+// export to PDF
+function exportToPDF() {
+    // Tạo một đối tượng jsPDF mới
+    let doc = new jsPDF();
+
+    // Lấy thông tin từ các phần tử có class là 'info-item'
+    let infoItems = document.getElementsByClassName('info-item');
+    let content = '';
+    let inputs = document.getElementsByTagName('input');
+    for (let i = 0; i < infoItems.length; i++) {
+        content += infoItems[i].innerText.trim() + ': ';
+        content += inputs[i].value + '\n';
+    }
+
+
+    // Thêm thông tin vào PDF
+    doc.text(content, 10, 10);
+
+    // Xuất PDF
+    doc.save('main_content.pdf');
+}
+
+// Gán hàm exportToPDF vào sự kiện click của nút
+document.getElementById('exportPdfButton').addEventListener('click', exportToPDF);
