@@ -63,6 +63,10 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
         let td3 = document.createElement('td');
         td3.id = 'trash-info';
         td3.className = 'ti-trash';
+        td3.addEventListener('click', function() {
+            // Xác nhận trước khi xóa
+            this.parentNode.remove();
+        });
     
         // Thêm các ô vào dòng
         tr.appendChild(td1);
@@ -71,10 +75,6 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
     
         // Thêm dòng vào bảng
         table.appendChild(tr);
-        td3.addEventListener('click', function() {
-            // Xác nhận trước khi xóa
-            this.parentNode.remove();
-        });
     });
     // Tạo nút xóa nếu đây không phải là bảng đầu tiên
     if (document.getElementById('main').children.length > 1) {
