@@ -1,5 +1,5 @@
-let studentId = "202215644"; // sua mssv cho nay
-
+let studentId = "20215644"; // sua mssv cho nay
+let studentName = "Cao Ngọc Thắng"
 function addDblclickEvent(ele) {
     ele.addEventListener('dblclick', function() {
         // Tạo một trường nhập mới
@@ -71,13 +71,6 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
     
         // Thêm dòng vào bảng
         table.appendChild(tr);
-        td3.addEventListener('click', function() {
-            // Xác nhận trước khi xóa
-            let groupItem = this.parentNode.parentNode;
-            if (confirm(`Are you sure you want to delete this info item?\nInfo: ${td1.textContent}`)) {
-                this.parentNode.remove();
-            }
-        });
     });
     // Tạo nút xóa nếu đây không phải là bảng đầu tiên
     if (document.getElementById('main').children.length > 1) {
@@ -85,7 +78,7 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
         deleteButton.textContent = 'Delete';
         deleteButton.id = 'delete'
         deleteButton.addEventListener('click', function() {
-            if (confirm(`Are you sure you want to delete this group item?\n`)) {
+            if (confirm(`Are you sure you want to delete this group item?\nHọ và Tên: ${studentName}\nMã Số Sinh Viên: ${studentId}`)) {
                 this.parentNode.remove();
             }
         });
