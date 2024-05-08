@@ -177,8 +177,13 @@ document.querySelector('.add-info-item1').addEventListener('click', function() {
         td3.id = 'trash-info';
         td3.className = 'ti-trash';
         td3.addEventListener('click', function() {
+            let parentGroupItem = this.parentNode.parentNode;
+
             // Xác nhận trước khi xóa
             this.parentNode.remove();
+
+            // Kiểm tra và xóa 'group-item' nếu cần
+            deleteGroupItemIfEmpty(parentGroupItem);
         });
     
         // Thêm các ô vào dòng
