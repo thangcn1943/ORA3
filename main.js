@@ -1,6 +1,6 @@
 let studentId = "20215644"; // sua mssv cho nay
 let studentName = "Cao Ngọc Thắng"
-function addDblclickEvent(ele) {
+const addDblclickEvent = (ele) => {
     ele.addEventListener('dblclick', function() {
         // Tạo một trường nhập mới
         let input = document.createElement('input');
@@ -23,7 +23,7 @@ function addDblclickEvent(ele) {
     });
 }
 
-function deleteGroupItemIfEmpty(groupItem) {
+const deleteGroupItemIfEmpty = (groupItem) => {
     // Kiểm tra nếu không còn 'info-item' nào
     if (groupItem.querySelectorAll('.info-item').length === 0) {
         // Xóa 'group-item'
@@ -74,8 +74,13 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
         td3.id = 'trash-info';
         td3.className = 'ti-trash';
         td3.addEventListener('click', function() {
+            let parentGroupItem = this.parentNode.parentNode;
+
             // Xác nhận trước khi xóa
             this.parentNode.remove();
+
+            // Kiểm tra và xóa 'group-item' nếu cần
+            deleteGroupItemIfEmpty(parentGroupItem);
         });
     
         // Thêm các ô vào dòng
