@@ -23,6 +23,14 @@ function addDblclickEvent(ele) {
     });
 }
 
+function deleteGroupItemIfEmpty(groupItem) {
+    // Kiểm tra nếu không còn 'info-item' nào
+    if (groupItem.querySelectorAll('.info-item').length === 0) {
+        // Xóa 'group-item'
+        groupItem.remove();
+    }
+}
+
 document.querySelector('.add-group-item').addEventListener('click', function() {
     // Tạo một bảng mới
     flag = (document.getElementById('main').children.length === 1)
@@ -43,8 +51,10 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
 
 
     let addButton = document.createElement('button');
+    addButton.id = "add-info-item"
     addButton.textContent = "Add Info Item"
     table.appendChild(addButton)
+
     addButton.addEventListener('click', function() {
         // Tạo một dòng mới
         let tr = document.createElement('tr');
@@ -125,7 +135,13 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
         table.appendChild(tr);
         td3.addEventListener('click', function() {
             // Xác nhận trước khi xóa
+            let parentGroupItem = this.parentNode.parentNode;
+
+            // Xác nhận trước khi xóa
             this.parentNode.remove();
+
+            // Kiểm tra và xóa 'group-item' nếu cần
+            deleteGroupItemIfEmpty(parentGroupItem);
         });
     }
 
@@ -133,22 +149,47 @@ document.querySelector('.add-group-item').addEventListener('click', function() {
     document.getElementById('main').appendChild(table);
 });
 
-let inputs = document.getElementsByTagName('input');
-for (let i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('blur', function() {
-        // Tạo một phần tử span mới chứa giá trị đã nhập
-        let span = document.createElement('span');
-        span.innerText = this.value;
+document.querySelector('.add-info-item1').addEventListener('click', function() {
+    // Tìm 'group-item' mới nhất
+    let groupItems = document.querySelectorAll('#group-item');
+    let latestGroupItem = groupItems[groupItems.length - 1];
 
-        // Thay thế phần tử input bằng phần tử span mới
-        this.parentNode.replaceChild(span, this);
-    });
-}
+    // Tạo một mục mới
+    let tr = document.createElement('tr');
+        tr.className = 'info-item';
+    
+        // Tạo các ô mới trong dòng
+        let td1 = document.createElement('td');
+        td1.className = 'info-field';
+        td1.textContent = 'Info Item';
+        addDblclickEvent(td1, studentId);
+    
+        let td2 = document.createElement('td');
+        td2.className = "input-info"
+        td2.innerHTML = '<input type="text">';
+    
+        let td3 = document.createElement('td');
+        td3.id = 'trash-info';
+        td3.className = 'ti-trash';
+        td3.addEventListener('click', function() {
+            // Xác nhận trước khi xóa
+            this.parentNode.remove();
+        });
+    
+        // Thêm các ô vào dòng
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+    
+        // Thêm dòng vào bảng
+        latestGroupItem.appendChild(tr);
+});
 
 // export to PDF
-function exportToPDF() {
+const exportToPDF = () => {
     // Tạo một đối tượng jsPDF mới
     let doc = new jsPDF();
+    doc.setFont("times")
 
     // Lấy thông tin từ các phần tử có class là 'info-item'
     let infoItems = document.getElementsByClassName('info-item');
