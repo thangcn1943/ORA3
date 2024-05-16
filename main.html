@@ -13,14 +13,40 @@
             <div class="title-ttsv">
                 Thong tin sinh vien_20215644
                 <span class="button">
-                    <button class = "add-info-item1">Add info item</button>
-                    <button class = "add-group-item">Add group item</button>
+                    <button class="add-info-item1">Add info item</button>
+                    <button class="add-group-item">Add group item</button>
                 </span>
+            </div>
+            <div class="container" id = "container">
+
             </div>
         </div>
     </div>
-    <button id="exportPdfButton">Export to PDF</button>
+    <button class="btn_print" id="exportPdfButton">Export to PDF</button>
     <script src="./main.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.btn_print', function(event) {
+                event.preventDefault();
+                var element = document.getElementById('container');
+                var opt = {
+                    margin: 1,
+                    filename: 'pageContent_' + jsAutoCode() + '.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().from(element).set(opt).save();
+            });
+        });
+
+        function jsAutoCode() {
+            // Define your function to generate the auto code here
+            // For example:
+            return Math.floor(Math.random() * 10000);
+        }
+    </script>
 </body>
 </html>

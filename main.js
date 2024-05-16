@@ -33,7 +33,7 @@ const deleteGroupItemIfEmpty = (groupItem) => {
 
 document.querySelector('.add-group-item').addEventListener('click', function () {
     // Tạo một bảng mới
-    flag = (document.getElementById('main').children.length === 1)
+    flag = (document.getElementById('container').children.length === 0)
 
     let table = document.createElement('table');
     table.id = 'group-item';
@@ -98,7 +98,10 @@ document.querySelector('.add-group-item').addEventListener('click', function () 
                         return '<option value="' + value.trim() + '">' + value.trim() + '</option>';
                     }).join('');
                     if (this.value === 'radio') {
-                        td2.innerHTML = options;
+                        let radioButtons = values.split(',').map(function(value) {
+                            return '<input type="radio" name="radio-group" value="' + value.trim() + '">' + value.trim();
+                        }).join('');
+                        td2.innerHTML = radioButtons;
                     } else {
                         let select = document.createElement('select');
                         select.innerHTML = options;
@@ -122,7 +125,7 @@ document.querySelector('.add-group-item').addEventListener('click', function () 
         table.appendChild(tr);
     });
     // Tạo nút xóa nếu đây không phải là bảng đầu tiên
-    if (document.getElementById('main').children.length > 1) {
+    if (document.getElementById('container').children.length > 0) {
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.id = 'delete'
@@ -178,7 +181,10 @@ document.querySelector('.add-group-item').addEventListener('click', function () 
                         return '<option value="' + value.trim() + '">' + value.trim() + '</option>';
                     }).join('');
                     if (this.value === 'radio') {
-                        td2.innerHTML = options;
+                        let radioButtons = values.split(',').map(function(value) {
+                            return '<input type="radio" name="radio-group" value="' + value.trim() + '">' + value.trim();
+                        }).join('');
+                        td2.innerHTML = radioButtons;
                     } else {
                         let select = document.createElement('select');
                         select.innerHTML = options;
@@ -210,8 +216,8 @@ document.querySelector('.add-group-item').addEventListener('click', function () 
         });
     }
 
-    // Thêm bảng vào cuối div#main
-    document.getElementById('main').appendChild(table);
+    // Thêm bảng vào cuối div#container
+    document.getElementById('container').appendChild(table);
 });
 
 document.querySelector('.add-info-item1').addEventListener('click', function () {
@@ -262,7 +268,10 @@ document.querySelector('.add-info-item1').addEventListener('click', function () 
                     return '<option value="' + value.trim() + '">' + value.trim() + '</option>';
                 }).join('');
                 if (this.value === 'radio') {
-                    td2.innerHTML = options;
+                    let radioButtons = values.split(',').map(function(value) {
+                        return '<input type="radio" name="radio-group" value="' + value.trim() + '">' + value.trim();
+                    }).join('');
+                    td2.innerHTML = radioButtons;
                 } else {
                     let select = document.createElement('select');
                     select.innerHTML = options;
@@ -282,30 +291,3 @@ document.querySelector('.add-info-item1').addEventListener('click', function () 
     tr.appendChild(td4);
     latestGroupItem.appendChild(tr);
 });
-
-// export to PDF
-const exportToPDF = () => {
-    // Tạo một đối tượng jsPDF mới
-    let doc = new jsPDF();
-    doc.setFont("times")
-
-    // Lấy thông tin từ các phần tử có class là 'info-item'
-    let infoItems = document.getElementsByClassName('info-item');
-    let content = '';
-    let inputs = document.getElementsByTagName('input');
-    for (let i = 0; i < infoItems.length; i++) {
-        let input = infoItems[i].querySelector('input');
-        content += infoItems[i].innerText.trim() + ': ';
-        content += (input ? input.value : '' )+ '\n';
-    }
-
-
-    // Thêm thông tin vào PDF
-    doc.text(content, 10, 10);
-
-    // Xuất PDF
-    doc.save('main_content.pdf');
-}
-
-// Gán hàm exportToPDF vào sự kiện click của nút
-document.getElementById('exportPdfButton').addEventListener('click', exportToPDF);
